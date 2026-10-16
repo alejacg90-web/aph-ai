@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#123b45">
+<title>APH AI | Primeros auxilios</title>
+<style>
+:root{--ink:#17343a;--muted:#61767b;--bg:#f3f7f7;--card:#fff;--line:#dce7e8;--teal:#176b68;--teal2:#e2f3f0;--red:#a52d35;--redbg:#fff0f0;--gold:#795313;--goldbg:#fff7e3}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+header{background:#123b45;color:white;padding:18px max(18px,calc((100% - 1100px)/2));display:flex;align-items:center;gap:12px}
+.logo{width:46px;height:46px;border-radius:14px;background:#e2f3f0;color:#123b45;display:grid;place-items:center;font-weight:900;font-size:18px}
+header h1{font-size:1.25rem;margin:0}header p{margin:2px 0 0;color:#cde2e3;font-size:.9rem}
+main{max-width:1100px;margin:22px auto;padding:0 16px 40px}
+.notice{background:var(--goldbg);border:1px solid #f0d99a;border-radius:14px;padding:12px 14px;margin-bottom:18px;color:#60470f}
+.emergency{display:flex;gap:12px;align-items:center;background:var(--redbg);border:1px solid #f1c9cb;border-radius:14px;padding:14px;margin-bottom:20px}
+.emergency strong{display:block;color:var(--red)}.emergency p{margin:2px 0 0;font-size:.92rem}
+.call{margin-left:auto;white-space:nowrap;background:#a52d35;color:white;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:750}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.tab,button{font:inherit;cursor:pointer;border:1px solid var(--line);border-radius:10px;padding:10px 14px;background:white;color:var(--ink);font-weight:650}
+.tab[aria-selected="true"]{background:var(--teal);color:white;border-color:var(--teal)}
+.panel{display:none}.panel.active{display:block}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 3px 12px #17343a08}
+.card h2{font-size:1.12rem;margin:0 0 10px}.muted{color:var(--muted);font-size:.93rem}
+label{font-weight:650;display:block;margin:10px 0 5px}
+textarea,input[type=file]{width:100%;font:inherit}
+textarea{border:1px solid #c8d7d9;border-radius:10px;padding:12px;resize:vertical;min-height:90px;background:white}
+button.primary{background:var(--teal);color:white;border-color:var(--teal)}
+button.danger{background:var(--red);color:white;border-color:var(--red)}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #e4a82d;outline-offset:2px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.chatlog{display:flex;flex-direction:column;gap:10px;margin:14px 0;max-height:420px;overflow:auto}
+.bubble{padding:12px 14px;border-radius:14px;max-width:95%;white-space:pre-wrap}
+.bot{background:#eef5f5;border:1px solid #dce7e8;align-self:flex-start}.user{background:var(--teal2);align-self:flex-end}
+.steps{padding-left:22px}.steps li{margin:7px 0}
+.resource{display:flex;justify-content:space-between;gap:12px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:10px}
+.resource a{color:var(--teal);font-weight:700}
+.camera{width:100%;background:#10282d;aspect-ratio:4/3;border-radius:12px;object-fit:contain;display:block;margin:12px 0}
+.preview{max-width:100%;max-height:360px;border-radius:12px;display:none;margin-top:12px}
+.casegrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.case{border:1px solid var(--line);border-radius:13px;padding:14px;background:white;text-align:left}
+.case strong{display:block;margin-bottom:4px}
+.feedback{padding:12px;border-radius:10px;background:var(--teal2);margin-top:12px}
+footer{margin-top:22px;color:var(--muted);font-size:.85rem;text-align:center}
+.small{font-size:.83rem}
+@media(max-width:720px){.grid{grid-template-columns:1fr}.casegrid{grid-template-columns:repeat(2,minmax(0,1fr))}.emergency{align-items:flex-start;flex-wrap:wrap}.call{margin-left:0}.resource{align-items:flex-start;flex-direction:column}main{margin-top:14px}}
+@media(max-width:420px){.casegrid{grid-template-columns:1fr}.tab{flex:1 1 40%}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">APH</div>
+  <div><h1>APH AI</h1><p>Asistente educativo de primeros auxilios · Colombia</p></div>
+</header>
+<main>
+  <div class="notice"><strong>Prototipo académico:</strong> esta versión todavía no tiene un modelo de IA conectado. El chat usa respuestas educativas predeterminadas y no puede diagnosticar. No la uses como sustituto de emergencias ni para tomar decisiones clínicas reales.</div>
+  <section class="emergency">
+    <div style="font-size:1.7rem" aria-hidden="true">🚨</div>
+    <div><strong>¿Hay peligro inmediato?</strong><p>Busca un lugar seguro y solicita ayuda. En Colombia puedes llamar al 123. No retrases la llamada para usar esta aplicación.</p></div>
+    <a class="call" href="tel:123">Llamar al 123</a>
+  </section>
+  <nav class="tabs" aria-label="Secciones">
+    <button class="tab" data-tab="chat" aria-selected="true">💬 Consultar</button>
+    <button class="tab" data-tab="camera" aria-selected="false">📷 Cámara e imagen</button>
+    <button class="tab" data-tab="learn" aria-selected="false">▶ Videos e imágenes</button>
+    <button class="tab" data-tab="cases" aria-selected="false">🧩 Practicar</button>
+  </nav>
+
+  <section id="chat" class="panel active">
+    <div class="grid">
+      <div class="card">
+        <h2>Cuéntame qué sucede</h2>
+        <p class="muted">Describe la situación sin incluir nombres, direcciones ni datos personales.</p>
+        <label for="question">¿Qué ocurrió?</label>
+        <textarea id="question" placeholder="Ej.: una persona se cortó y está sangrando mucho..."></textarea>
+        <div class="actions"><button class="primary" id="send">Consultar</button><button id="clear">Limpiar conversación</button></div>
+        <p class="small muted">Esta demostración responde mediante reglas sencillas; no interpreta todos los casos posibles.</p>
+      </div>
+      <div class="card">
+        <h2>Orientación</h2>
+        <div id="chatlog" class="chatlog" aria-live="polite"><div class="bubble bot">Hola. Puedo mostrarte ejemplos educativos básicos. Si hay peligro inmediato, llama al 123 antes de continuar.</div></div>
+        <div id="chatresource"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="camera" class="panel">
+    <div class="grid">
+      <div class="card">
+        <h2>Usar la cámara</h2>
+        <p class="muted">Apunta solo a materiales o lesiones simuladas. No grabes ni subas imágenes identificables de pacientes.</p>
+        <video id="video" class="camera" autoplay playsinline muted aria-label="Vista previa de cámara"></video>
+        <div class="actions"><button class="primary" id="startcam">Activar cámara</button><button id="capture">Capturar imagen</button><button id="stopcam">Detener cámara</button></div>
+        <label for="upload">O cargar una imagen de ejemplo</label><input id="upload" type="file" accept="image/*">
+        <canvas id="canvas" hidden></canvas>
+        <img id="preview" class="preview" alt="Vista previa de la imagen seleccionada">
+      </div>
+      <div class="card">
+        <h2>Observaciones de la imagen</h2>
+        <p id="imageStatus" class="muted">Activa la cámara o carga una imagen. Esta versión muestra la imagen, pero todavía no la envía a un modelo de IA.</p>
+        <div id="imageTips"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="learn" class="panel">
+    <div class="card">
+      <h2>Videos educativos</h2>
+      <p class="muted">Estos botones abren búsquedas en YouTube, no videos verificados individualmente. Revisa la fuente y la vigencia del contenido antes de usarlo para aprender una maniobra.</p>
+      <div id="resources"></div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <h2>Guías visuales básicas</h2>
+      <div class="grid">
+        <div><h3>Hemorragia externa</h3><p>Si es seguro, aplica presión directa y firme con una gasa o tela limpia. Si el sangrado es abundante, pide ayuda urgente y sigue las instrucciones del operador.</p><div class="resource"><span>Buscar demostración visual</span><a target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=primeros+auxilios+hemorragia+presion+directa+Cruz+Roja">Ver recursos ↗</a></div></div>
+        <div><h3>Quemadura térmica</h3><p>Enfría la quemadura con agua corriente fresca; no uses hielo, mantequilla ni remedios caseros. Solicita atención cuando sea grave o afecte zonas sensibles.</p><div class="resource"><span>Buscar demostración visual</span><a target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=primeros+auxilios+quemaduras+Cruz+Roja">Ver recursos ↗</a></div></div>
+        <div><h3>Convulsión</h3><p>Protege a la persona de golpes, despeja el entorno y no la sujetes ni introduzcas objetos en su boca. Solicita emergencias si hay señales de gravedad.</p><div class="resource"><span>Buscar demostración visual</span><a target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=primeros+auxilios+convulsiones+fuente+oficial">Ver recursos ↗</a></div></div>
+        <div><h3>RCP y DEA</h3><p>Si una persona no responde y no respira normalmente, activa emergencias, pide un DEA y sigue las instrucciones del operador. La RCP debe realizarse según la formación y las indicaciones recibidas.</p><div class="resource"><span>Buscar demostración visual</span><a target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=RCP+para+reanimadores+legos+American+Heart+Association+español">Ver recursos ↗</a></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="cases" class="panel">
+    <div class="card">
+      <h2>Practica con escenarios ficticios</h2>
+      <p class="muted">Elige un caso para aprender. Estas actividades no certifican competencias clínicas.</p>
+      <div class="casegrid" id="casegrid"></div>
+      <div id="caseout" aria-live="polite"></div>
+    </div>
+  </section>
+  <footer>APH AI · Prototipo académico · Recursos educativos para Colombia · No sustituye la atención profesional.</footer>
+</main>
+<script>
+const tabs=[...document.querySelectorAll('.tab')];
+tabs.forEach(b=>b.addEventListener('click',()=>{tabs.forEach(x=>x.setAttribute('aria-selected',String(x===b)));document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===b.dataset.tab));}));
+const video=document.getElementById('video'),canvas=document.getElementById('canvas'),preview=document.getElementById('preview');
+let stream=null;
+document.getElementById('startcam').onclick=async()=>{try{if(!navigator.mediaDevices?.getUserMedia)throw new Error('Este navegador no permite acceder a la cámara. Prueba en una página HTTPS o en localhost.');stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'},audio:false});video.srcObject=stream;document.getElementById('imageStatus').textContent='Cámara activa. Captura una imagen de un escenario simulado.';}catch(e){document.getElementById('imageStatus').textContent='No se pudo activar la cámara: '+e.message+' También puedes cargar una imagen.';}};
+document.getElementById('stopcam').onclick=()=>{if(stream)stream.getTracks().forEach(t=>t.stop());stream=null;video.srcObject=null;document.getElementById('imageStatus').textContent='Cámara detenida.';};
+document.getElementById('capture').onclick=()=>{if(!video.videoWidth){document.getElementById('imageStatus').textContent='Primero activa la cámara o carga una imagen.';return;}canvas.width=video.videoWidth;canvas.height=video.videoHeight;canvas.getContext('2d').drawImage(video,0,0);preview.src=canvas.toDataURL('image/jpeg',.88);preview.style.display='block';document.getElementById('imageStatus').textContent='Imagen capturada localmente. Esta versión no la envía a una IA.';document.getElementById('imageTips').innerHTML='<div class="feedback"><strong>Importante:</strong> una foto no permite confirmar pulso, respiración normal, consciencia ni un diagnóstico. Describe la situación a un profesional y solicita ayuda si hay señales de alarma.</div>';};
+document.getElementById('upload').onchange=e=>{const f=e.target.files?.[0];if(!f)return;if(!f.type.startsWith('image/')){document.getElementById('imageStatus').textContent='Selecciona un archivo de imagen.';return;}preview.src=URL.createObjectURL(f);preview.style.display='block';document.getElementById('imageStatus').textContent='Imagen cargada para vista previa. No se ha enviado a ningún servicio externo.';document.getElementById('imageTips').innerHTML='<div class="feedback">La aplicación todavía no cuenta con análisis visual mediante IA. No se puede inferir un diagnóstico a partir de esta vista previa.</div>';};
+const searchLinks={
+'hemorragia':'https://www.youtube.com/results?search_query=primeros+auxilios+hemorragia+presion+directa+Cruz+Roja',
+'quemadura':'https://www.youtube.com/results?search_query=primeros+auxilios+quemaduras+fuente+oficial',
+'atragantamiento':'https://www.youtube.com/results?search_query=primeros+auxilios+atragantamiento+adultos+fuente+oficial',
+'convulsión':'https://www.youtube.com/results?search_query=primeros+auxilios+convulsiones+fuente+oficial',
+'rcp':'https://www.youtube.com/results?search_query=RCP+reanimador+lego+fuente+oficial+español',
+'desmayo':'https://www.youtube.com/results?search_query=primeros+auxilios+desmayo+fuente+oficial',
+'fractura':'https://www.youtube.com/results?search_query=primeros+auxilios+sospecha+fractura+fuente+oficial'
+};
+const resourceNames={'hemorragia':'Control de hemorragias','quemadura':'Primeros auxilios para quemaduras','atragantamiento':'Atragantamiento','convulsión':'Convulsiones','rcp':'RCP y DEA','desmayo':'Desmayo','fractura':'Sospecha de fractura'};
+document.getElementById('resources').innerHTML=Object.keys(searchLinks).map(k=>`<div class="resource"><span><strong>${resourceNames[k]}</strong><br><span class="muted small">Buscar videos educativos</span></span><a target="_blank" rel="noopener" href="${searchLinks[k]}">Buscar ↗</a></div>`).join('');
+function responseFor(q){const s=q.toLowerCase();
+if(/no responde|inconsciente|no respira|paro cardíaco|paro cardiaco/.test(s))return {title:'Posible emergencia crítica',text:'Llama al 123 o pide a alguien que lo haga ahora. Comprueba si responde y si respira normalmente. Si no responde y no respira normalmente, sigue las instrucciones del operador e inicia RCP si puedes; pide un DEA. No retrases la llamada por continuar en este chat.',key:'rcp'};
+if(/sangr|hemorrag|cort/.test(s))return {title:'Posible hemorragia',text:'Asegúrate de que el lugar sea seguro. Si hay sangrado externo, aplica presión directa y firme con una gasa o tela limpia. Si el sangrado es abundante, no se controla o la persona empeora, llama al 123 y sigue las instrucciones del operador.',key:'hemorragia'};
+if(/quem|agua caliente|aceite caliente/.test(s))return {title:'Posible quemadura',text:'Aléjate de la fuente de calor. Enfría la zona con agua corriente fresca; no uses hielo, mantequilla ni cremas caseras. No arranques ropa adherida. Solicita ayuda urgente si la quemadura es extensa, profunda o afecta cara, manos, genitales o vías respiratorias.',key:'quemadura'};
+if(/convul|convulsion|epilep/.test(s))return {title:'Posible convulsión',text:'Retira objetos peligrosos y protege la cabeza con algo blando si puedes hacerlo sin riesgo. No sujetes a la persona ni introduzcas objetos en su boca. Cuando terminen los movimientos, comprueba su respuesta y respiración. Llama al 123 si dura más de 5 minutos, se repite, es la primera convulsión, hay lesión o dificultad respiratoria.',key:'convulsión'};
+if(/atragant|ahogando|no puede respirar/.test(s))return {title:'Posible atragantamiento',text:'Pregunta si puede hablar, toser y respirar. Si la obstrucción es grave, pide ayuda y llama al 123; las maniobras dependen de la edad y la situación. Si pierde la respuesta, inicia la actuación de reanimación siguiendo al operador. No hagas barridos a ciegas con los dedos.',key:'atragantamiento'};
+if(/desmay|mare|se desvanec/.test(s))return {title:'Posible desmayo',text:'Ayuda a la persona a recostarse en un lugar seguro y comprueba si responde y respira normalmente. No le des comida ni bebida mientras esté somnolienta o inconsciente. Llama al 123 si no recupera pronto la respuesta, tiene dolor torácico, dificultad respiratoria, lesión importante o empeora.',key:'desmayo'};
+if(/fractur|hueso|ca[ií]d|golpe/.test(s))return {title:'Posible lesión por caída o golpe',text:'Evita mover innecesariamente a la persona, especialmente si sospechas lesión de cabeza, cuello o espalda. No intentes enderezar una extremidad deformada. Solicita atención urgente si hay dolor intenso, deformidad, pérdida de sensibilidad, sangrado importante o dificultad para respirar.',key:'fractura'};
+return {title:'Necesito un poco más de información',text:'Primero, asegúrate de que el lugar sea seguro. ¿La persona responde y respira normalmente? ¿Qué edad aproximada tiene y qué ocurrió? Si hay peligro inmediato, sangrado abundante, dificultad respiratoria o no responde, llama al 123 ahora. Esta demostración no sustituye una evaluación profesional.',key:null};}
+const log=document.getElementById('chatlog');
+function addBubble(text,cls){const d=document.createElement('div');d.className='bubble '+cls;d.textContent=text;log.appendChild(d);log.scrollTop=log.scrollHeight;}
+document.getElementById('send').onclick=()=>{const q=document.getElementById('question').value.trim();if(!q)return;addBubble(q,'user');const r=responseFor(q);addBubble(r.title+'\n\n'+r.text,'bot');const holder=document.getElementById('chatresource');holder.innerHTML=r.key?`<div class="resource"><span>Recurso audiovisual relacionado: ${resourceNames[r.key]}</span><a target="_blank" rel="noopener" href="${searchLinks[r.key]}">Buscar videos ↗</a></div>`:'';document.getElementById('question').value='';};
+document.getElementById('clear').onclick=()=>{log.innerHTML='<div class="bubble bot">Conversación reiniciada. Si hay peligro inmediato, llama al 123.</div>';document.getElementById('chatresource').innerHTML='';};
+const cases=[
+{title:'Hemorragia externa',desc:'Una persona tiene una herida en el antebrazo y sangra.',q:'¿Qué harías primero?',opts:['Aplicar presión directa y pedir ayuda si es grave','Lavar durante varios minutos antes de controlar el sangrado','Retirar repetidamente la gasa para mirar'],correct:0,why:'La presión directa ayuda a controlar el sangrado. Si es abundante o no se controla, activa emergencias. No retires repetidamente el apósito.' ,key:'hemorragia'},
+{title:'Quemadura',desc:'Alguien se quema la mano con líquido caliente.',q:'¿Qué acción inicial es apropiada?',opts:['Poner hielo directamente','Enfriar con agua corriente fresca','Aplicar mantequilla'],correct:1,why:'El agua corriente fresca ayuda a enfriar la quemadura. Evita hielo y remedios caseros.',key:'quemadura'},
+{title:'Convulsión',desc:'Una persona cae y presenta movimientos convulsivos.',q:'¿Qué debes evitar?',opts:['Apartar objetos peligrosos','Proteger la cabeza sin sujetarla','Introducir objetos en su boca'],correct:2,why:'No introduzcas objetos en la boca ni sujetes a la persona. Protege el entorno y pide ayuda si hay señales de gravedad.',key:'convulsión'},
+{title:'Atragantamiento',desc:'Un adulto se lleva las manos al cuello y no puede hablar ni toser.',q:'¿Qué es lo más importante?',opts:['Ignorarlo y esperar','Pedir ayuda y actuar según la guía para obstrucción grave','Dar agua'],correct:1,why:'Una obstrucción grave puede ser mortal. Pide ayuda, llama a emergencias y aplica maniobras apropiadas a la edad y situación; no des agua.',key:'atragantamiento'},
+{title:'Persona inconsciente',desc:'Una persona no responde y no respira normalmente.',q:'¿Cuál es la prioridad?',opts:['Buscar videos primero','Llamar a emergencias, pedir un DEA e iniciar RCP siguiendo instrucciones','Darle algo de beber'],correct:1,why:'Activa emergencias inmediatamente, solicita un DEA e inicia RCP siguiendo al operador y tu formación. No retrases la atención.',key:'rcp'},
+{title:'Caída',desc:'Una persona cae desde una altura y se queja de dolor de cuello.',q:'¿Qué es lo más prudente?',opts:['Sentarla rápidamente','Evitar movimientos innecesarios y pedir ayuda urgente','Enderezarle el cuello'],correct:1,why:'Puede existir una lesión grave. Evita movimientos innecesarios y solicita ayuda; sigue las indicaciones del servicio de emergencias.',key:'fractura'}
+];
+const cg=document.getElementById('casegrid'),out=document.getElementById('caseout');
+cases.forEach((c,i)=>{const b=document.createElement('button');b.className='case';b.innerHTML=`<strong>${c.title}</strong><span class="muted small">${c.desc}</span>`;b.onclick=()=>renderCase(i);cg.appendChild(b);});
+function renderCase(i){const c=cases[i];out.innerHTML=`<div class="card" style="margin-top:14px"><h3>${c.title}</h3><p>${c.desc}</p><strong>${c.q}</strong><div id="opts" class="actions" style="display:grid;grid-template-columns:1fr"></div><div id="feedback"></div></div>`;const opts=document.getElementById('opts');c.opts.forEach((o,j)=>{const b=document.createElement('button');b.textContent=o;b.onclick=()=>{document.querySelectorAll('#opts button').forEach(x=>x.disabled=true);const f=document.getElementById('feedback');f.className='feedback';f.textContent=(j===c.correct?'Respuesta adecuada. ':'Repasemos. ')+c.why;const a=document.createElement('p');a.innerHTML=`<a target="_blank" rel="noopener" href="${searchLinks[c.key]}">Buscar video educativo sobre este tema ↗</a>`;f.appendChild(a);};opts.appendChild(b);});}
+</script>
+</body>
+</html>

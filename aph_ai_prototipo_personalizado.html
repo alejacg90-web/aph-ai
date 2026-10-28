@@ -173,14 +173,58 @@ document.getElementById('send').onclick=()=>{
  const q=document.getElementById('question').value.trim();if(!q)return;
  addBubble(q,'user');const r=responseFor(q);addBubble(r.title+'\n\n'+r.text,'bot');
  const holder=document.getElementById('chatresource');
- if(r.key && videoIds[r.key]){
-   holder.innerHTML=`<div class="video-response"><strong>🎥 Video para resolver esta situación: ${resourceNames[r.key]}</strong><p class="muted small">Video instructivo de Cruz Roja Mexicana. Úsalo como apoyo educativo; ante peligro inmediato llama al 123 y sigue las indicaciones del operador.</p><iframe src="https://www.youtube-nocookie.com/embed/${videoIds[r.key]}" title="${resourceNames[r.key]}" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><div class="video-actions"><a href="${directVideoLinks[r.key]}" target="_blank" rel="noopener">▶ Abrir video</a><a class="secondary" href="${searchLinks[r.key]}" target="_blank" rel="noopener">Ver otras demostraciones</a></div></div>`;
- } else if(r.key){
-   holder.innerHTML=`<div class="video-response"><strong>🎥 Buscar una demostración específica: ${resourceNames[r.key]}</strong><p>Este tema aún no tiene un video individual verificado dentro del prototipo. Abre la búsqueda específica para encontrar demostraciones de cómo actuar ante esta situación.</p><div class="video-actions"><a href="${searchLinks[r.key]}" target="_blank" rel="noopener">▶ Buscar video sobre este problema</a></div></div>`;
- } else {
-   const targeted='https://www.youtube.com/results?search_query='+encodeURIComponent('cómo actuar ante '+q+' primeros auxilios fuente oficial');
-   holder.innerHTML=`<div class="video-response"><strong>🎥 Video relacionado con tu consulta</strong><p>No reconocí todavía el problema dentro de los temas preparados. Puedes buscar una demostración relacionada con lo que escribiste. Esta búsqueda no verifica automáticamente que el video sea correcto.</p><div class="video-actions"><a href="${targeted}" target="_blank" rel="noopener">▶ Buscar video sobre mi consulta</a></div><p class="muted small">Para mostrar automáticamente un video seleccionado dentro de la página para cualquier consulta, el prototipo necesita una integración de búsqueda de videos (por ejemplo, YouTube Data API) o una lista de videos verificados por tema.</p></div>`;
- }
+if (r.key && videoIds[r.key]) {
+  const id = videoIds[r.key];
+  const nombre = resourceNames[r.key];
+  const busqueda = searchLinks[r.key];
+
+  holder.innerHTML = `
+    <div class="video-response">
+      <strong>🎥 Video educativo: ${nombre}</strong>
+      <p class="muted small">
+        Si el reproductor no funciona, abre el video directamente
+        en YouTube. Ante una emergencia, llama al 123.
+      </p>
+
+      <iframe
+        src="https://www.youtube.com/embed/${id}"
+        title="${nombre}"
+        loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write;
+        encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen>
+      </iframe>
+
+      <div class="video-actions">
+        <a href="https://www.youtube.com/watch?v=${id}"
+           target="_blank" rel="noopener">
+          ▶ Abrir video en YouTube
+        </a>
+        <a class="secondary" href="${busqueda}"
+           target="_blank" rel="noopener">
+          Buscar otras demostraciones
+        </a>
+      </div>
+    </div>`;
+} else {
+  const consulta = document.getElementById('question').value.trim();
+  const busqueda = 'https://www.youtube.com/results?search_query=' +
+    encodeURIComponent('primeros auxilios cómo actuar ' + consulta);
+
+  holder.innerHTML = `
+    <div class="video-response">
+      <strong>🎥 Recursos para tu consulta</strong>
+      <p>No encontré un video asignado a este tema.
+      Puedes consultar demostraciones relacionadas, pero
+      verifica que procedan de una fuente confiable.</p>
+      <div class="video-actions">
+        <a href="${busqueda}" target="_blank" rel="noopener">
+          ▶ Buscar videos sobre esta situación
+        </a>
+      </div>
+    </div>`;
+}
  document.getElementById('question').value='';
 };
 document.getElementById('clear').onclick=()=>{log.innerHTML='<div class="bubble bot">Conversación reiniciada. Si hay peligro inmediato, llama al 123.</div>';document.getElementById('chatresource').innerHTML='';};

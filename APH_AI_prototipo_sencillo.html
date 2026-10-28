@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>APH AI | Primeros auxilios</title>
+<style>
+:root{--navy:#17324d;--blue:#2563a6;--pale:#eef5fb;--teal:#147d78;--ink:#203040;--muted:#627386;--line:#d8e2ec}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f4f7fa;color:var(--ink);line-height:1.5}
+header{background:var(--navy);color:white;padding:24px 18px}.wrap{max-width:950px;margin:auto}.brand{display:flex;gap:12px;align-items:center}
+.logo{width:48px;height:48px;border-radius:14px;background:white;color:var(--navy);display:grid;place-items:center;font-weight:bold}
+h1{margin:0;font-size:26px}header p{margin:4px 0 0;color:#dbe8f5}main{padding:0 18px 28px}
+.notice{background:#fff3f0;border:1px solid #f0c2bb;color:#7a271a;padding:12px;border-radius:12px;margin:18px 0}
+nav{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}button,.btn{border:0;border-radius:10px;padding:11px 15px;background:var(--blue);color:white;font-weight:bold;cursor:pointer;text-decoration:none;display:inline-block}
+nav button{background:#e2ebf4;color:var(--navy)}nav button.active{background:var(--blue);color:white}
+.panel{display:none;background:white;border:1px solid var(--line);border-radius:16px;padding:20px}.panel.active{display:block}
+h2{margin-top:0;color:var(--navy);font-size:22px}label{font-weight:bold;display:block;margin-bottom:7px}
+textarea,input{width:100%;border:1px solid #bac9d8;border-radius:10px;padding:12px;font:inherit}textarea{min-height:95px;resize:vertical}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}.answer{white-space:pre-line;background:var(--pale);border-left:4px solid var(--teal);padding:15px;border-radius:8px;margin-top:16px}
+.small{font-size:13px;color:var(--muted)}.resource{border:1px solid var(--line);padding:14px;border-radius:12px;margin:12px 0}.resource h3{margin:0 0 5px;color:var(--navy)}
+.quiz-option{display:block;width:100%;text-align:left;background:#f5f8fb;color:var(--ink);border:1px solid var(--line);padding:12px;border-radius:10px;margin:8px 0;cursor:pointer}
+footer{text-align:center;padding:18px;color:var(--muted);font-size:13px}@media(max-width:600px){h1{font-size:22px}.panel{padding:15px}nav button{flex:1}}
+</style></head>
+<body>
+<header><div class="wrap brand"><div class="logo">APH</div><div><h1>APH AI</h1><p>Guía educativa de primeros auxilios</p></div></div></header>
+<main class="wrap">
+<div class="notice"><strong>Importante:</strong> este es un prototipo académico y no reemplaza la atención profesional. Ante una emergencia en Colombia, llama al <strong>123</strong>.</div>
+<nav><button class="active" data-tab="consulta">Consultar</button><button data-tab="camara">Cámara e imagen</button><button data-tab="videos">Videos educativos</button><button data-tab="practica">Practicar</button></nav>
+<section id="consulta" class="panel active">
+<h2>¿Qué está pasando?</h2><p>Describe la situación. Esta versión usa palabras clave; todavía no tiene una IA conectada.</p>
+<label for="question">Describe la emergencia</label><textarea id="question" placeholder="Ejemplo: una persona tiene una herida y está sangrando mucho..."></textarea>
+<div class="row"><button id="send">Consultar</button><button id="clear" style="background:#e2ebf4;color:#17324d">Limpiar</button></div>
+<div id="answer" class="answer" hidden aria-live="polite"></div><div id="video-result"></div>
+</section>
+<section id="camara" class="panel"><h2>Cámara e imagen</h2><p>Selecciona una fotografía para verla aquí. Esta versión no interpreta imágenes ni diagnostica lesiones.</p><label for="photo">Seleccionar fotografía</label><input id="photo" type="file" accept="image/*" capture="environment"><div id="preview"></div><p class="small">No retrases una llamada de emergencia para tomar una foto.</p></section>
+<section id="videos" class="panel"><h2>Videos educativos</h2><p>Abre una búsqueda de videos y elige una fuente sanitaria confiable y actualizada.</p><div id="resources"></div></section>
+<section id="practica" class="panel"><h2>Practica lo aprendido</h2><p><strong>Pregunta:</strong> ¿Qué debes hacer primero al encontrar a una persona en una emergencia?</p>
+<button class="quiz-option" data-correct="no">Darle agua inmediatamente.</button><button class="quiz-option" data-correct="yes">Comprobar que el lugar sea seguro y pedir ayuda.</button><button class="quiz-option" data-correct="no">Moverla rápidamente sin evaluar la situación.</button><div id="quiz-feedback" class="answer" hidden></div></section>
+</main><footer>APH AI · Prototipo académico · No sustituye formación certificada ni atención médica.</footer>
+<script>
+const topics={
+hemorragia:{name:'Hemorragia',search:'primeros auxilios hemorragia controlar sangrado Cruz Roja',text:'1. Asegura que el lugar sea seguro y pide ayuda.\\n2. Llama al 123 si el sangrado es abundante o no se detiene.\\n3. Presiona firmemente la herida con una gasa o tela limpia y mantén presión continua.\\n4. Si se empapa, coloca más material encima sin retirar el primero.\\n5. No retires objetos incrustados; presiona alrededor.\\n6. Vigila a la persona hasta que llegue la ayuda.'},
+quemadura:{name:'Quemadura',search:'primeros auxilios quemaduras agua corriente Cruz Roja',text:'1. Aléjate de la fuente de calor si es seguro.\\n2. Enfría con agua corriente fresca durante 20 minutos si es posible.\\n3. No uses hielo, mantequilla ni remedios caseros. No revientes ampollas.\\n4. Busca atención urgente si es extensa, profunda, eléctrica, química o afecta cara o vía aérea.'},
+atragantamiento:{name:'Atragantamiento',search:'primeros auxilios atragantamiento adulto Cruz Roja',text:'Si puede toser y hablar, anímala a toser y vigílala. Si no puede hablar, respirar ni toser eficazmente, pide ayuda y llama al 123. Aplica las maniobras adecuadas para su edad según tu formación y las instrucciones del operador. Si pierde el conocimiento y no respira normalmente, inicia RCP siguiendo las instrucciones del operador.'},
+rcp:{name:'RCP',search:'RCP solo manos adulto primeros auxilios Cruz Roja',text:'1. Comprueba que el lugar sea seguro.\\n2. Verifica si responde y si respira normalmente.\\n3. Pide que llamen al 123 y traigan un DEA.\\n4. Si no responde y no respira normalmente, inicia compresiones en el centro del pecho siguiendo las instrucciones del operador.\\n5. Usa el DEA tan pronto esté disponible.'},
+convulsion:{name:'Convulsión',search:'primeros auxilios convulsiones Cruz Roja',text:'1. Retira objetos peligrosos y protege la cabeza.\\n2. No sujetes a la persona ni introduzcas objetos en su boca.\\n3. Observa cuánto dura. Cuando sea posible, colócala de lado.\\n4. Llama al 123 si dura 5 minutos o más, se repite, es la primera, hay lesión o dificultad para respirar.'},
+fractura:{name:'Fractura',search:'primeros auxilios fracturas inmovilización Cruz Roja',text:'1. No endereces el hueso ni recoloces la articulación.\\n2. Mantén la zona quieta en la posición encontrada.\\n3. No permitas que apoye la extremidad.\\n4. Cubre heridas con material limpio sin empujar el hueso.\\n5. Solicita ayuda médica.'},
+desmayo:{name:'Desmayo',search:'primeros auxilios desmayo Cruz Roja',text:'1. Comprueba que el lugar sea seguro y verifica si responde y respira.\\n2. Si no responde o no respira normalmente, llama al 123.\\n3. Si recupera la consciencia, mantenla acostada y no la levantes de golpe.\\n4. No le des comida ni bebida mientras esté inconsciente.'}
+};
+function findTopic(text){const q=text.toLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g,'');
+if(/hemorrag|sangr|corte profundo|herida/.test(q))return'hemorragia';
+if(/quemad|agua caliente|aceite caliente/.test(q))return'quemadura';
+if(/atragant|asfixia|se atoro/.test(q))return'atragantamiento';
+if(/rcp|paro cardi|no respira|reanimacion/.test(q))return'rcp';
+if(/convulsion|convulsiona|epileps/.test(q))return'convulsion';
+if(/fractur|hueso roto/.test(q))return'fractura';
+if(/desmayo|se desmayo|inconsciente/.test(q))return'desmayo';
+return null}
+function searchUrl(key,extra=''){let term=key?topics[key].search:'primeros auxilios '+extra;return'https://www.youtube.com/results?search_query='+encodeURIComponent(term)}
+function videoCard(key,extra=''){let name=key?topics[key].name:'tu consulta';return `<div class="resource"><h3>Video educativo: ${name}</h3><p>Para evitar mostrar un video incorrecto o no disponible, abre una búsqueda y elige una fuente confiable.</p><a class="btn" href="${searchUrl(key,extra)}" target="_blank" rel="noopener">▶ Buscar videos educativos</a></div>`}
+document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===b.dataset.tab))}));
+document.getElementById('send').addEventListener('click',()=>{let q=document.getElementById('question').value.trim();if(!q){alert('Escribe una situación para consultar.');return}let key=findTopic(q),a=document.getElementById('answer');a.hidden=false;
+if(key){a.textContent='Orientación general: '+topics[key].name+'\\n\\n'+topics[key].text+'\\n\\nEsta guía no reemplaza la evaluación profesional. Ante una emergencia, llama al 123.';document.getElementById('video-result').innerHTML=videoCard(key)}
+else{a.textContent='No pude identificar con seguridad el tema. Si es una emergencia, llama al 123. Prueba describirla con palabras sencillas o busca un tema en “Videos educativos”.';document.getElementById('video-result').innerHTML=videoCard(null,q)}});
+document.getElementById('clear').addEventListener('click',()=>{document.getElementById('question').value='';document.getElementById('answer').hidden=true;document.getElementById('video-result').innerHTML=''});
+document.getElementById('resources').innerHTML=Object.keys(topics).map(k=>`<div class="resource"><h3>${topics[k].name}</h3><p>${topics[k].text.split('\\n')[0]}</p><a class="btn" href="${searchUrl(k)}" target="_blank" rel="noopener">▶ Buscar videos</a></div>`).join('');
+document.getElementById('photo').addEventListener('change',e=>{let f=e.target.files[0],h=document.getElementById('preview');h.innerHTML='';if(!f)return;if(!f.type.startsWith('image/')){h.textContent='Selecciona una imagen válida.';return}let img=document.createElement('img');img.alt='Vista previa de la fotografía';img.style.cssText='display:block;max-width:100%;max-height:420px;margin-top:14px;border-radius:12px';img.src=URL.createObjectURL(f);h.appendChild(img)});
+document.querySelectorAll('.quiz-option').forEach(b=>b.addEventListener('click',()=>{let f=document.getElementById('quiz-feedback');f.hidden=false;f.textContent=b.dataset.correct==='yes'?'¡Correcto! La seguridad de la escena es lo primero. Después pide ayuda y actúa según tu formación.':'No es lo más seguro. Primero verifica la seguridad del lugar y pide ayuda.'}));
+</script></body></html>
